@@ -9,9 +9,9 @@ namespace Wpf_ExamenEntornos
     {
         Rectangulo _rectangulo;
         Circunferencia _circunferencia;
-        double _ladoMayor = 15;
-        double _ladoMenor = 12;
-        double _radio = 5;
+        string _ladoMayor = "15";
+        string _ladoMenor = "12";
+        string _radio = "5";
         string _mensaje = "<sin datos>";
 
         public string AreaRectangulo
@@ -74,59 +74,38 @@ namespace Wpf_ExamenEntornos
             }
         }
 
-        public double LadoMayor
+        public string LadoMayor
         {
             get { return _ladoMayor; }
             set 
             {
-                if (value != _ladoMayor && value >= 0)
+                if (value != _ladoMayor)
                 {
-                    try
-                    {
-                        _ladoMayor = value;
-                    }
-                    catch (Exception e)
-                    {
-                        Mensaje = e.Message;
-                    }
+                    _ladoMayor = value;
                 }
             }
         }
 
-        public double LadoMenor
+        public string LadoMenor
         {
             get { return _ladoMenor; }
             set
             {
-                if (value != _ladoMenor && value >= 0)
+                if (value != _ladoMenor)
                 {
-                    try
-                    {
-                        _ladoMenor = value;
-                    }
-                    catch (Exception e)
-                    {
-                        Mensaje = e.Message;
-                    }
+                    _ladoMenor = value;
                 }
             }
         }
 
-        public double Radio
+        public string Radio
         {
             get { return _radio; }
             set
             {
-                if (value != _radio && value >= 0)
+                if (value != _radio)
                 {
-                    try
-                    {
-                        _radio = value;
-                    }
-                    catch (Exception e)
-                    {
-                        Mensaje = e.Message;
-                    }
+                    _radio = value;
                 }
             }
         }
@@ -162,7 +141,7 @@ namespace Wpf_ExamenEntornos
                 if (value != _mensaje)
                 {
                     _mensaje = value;
-                    NotificarCambioDePropiedad(_mensaje);
+                    NotificarCambioDePropiedad("Mensaje");
                 }
             }
         }
@@ -180,14 +159,23 @@ namespace Wpf_ExamenEntornos
 
         public void Calcular()
         {
-            _rectangulo = new Rectangulo(LadoMayor, LadoMenor);
-            _circunferencia = new Circunferencia(Radio);
-            NotificarCambioDePropiedad("AreaRectangulo");
-            NotificarCambioDePropiedad("Perimetro");
-            NotificarCambioDePropiedad("AreaCircunferencia");
-            NotificarCambioDePropiedad("Longitud");
-            NotificarCambioDePropiedad("Conectado");
-            NotificarCambioDePropiedad("Color");
+            try
+            {
+                _rectangulo = new Rectangulo(double.Parse(LadoMayor), double.Parse(LadoMenor));
+                _circunferencia = new Circunferencia(double.Parse(Radio));
+                NotificarCambioDePropiedad("AreaRectangulo");
+                NotificarCambioDePropiedad("Perimetro");
+                NotificarCambioDePropiedad("AreaCircunferencia");
+                NotificarCambioDePropiedad("Longitud");
+                NotificarCambioDePropiedad("Conectado");
+                NotificarCambioDePropiedad("Color");
+                Mensaje = "Cálculo realizado con éxito";
+            }
+            catch (Exception e)
+            {
+
+                Mensaje = e.Message;
+            }
         }
 
         public void Limpiar()
@@ -200,6 +188,7 @@ namespace Wpf_ExamenEntornos
             NotificarCambioDePropiedad("Longitud");
             NotificarCambioDePropiedad("Conectado");
             NotificarCambioDePropiedad("Color");
+            Mensaje = "Se ha limpiado la interfaz";
         }
 
         public ICommand Calcular_Click
